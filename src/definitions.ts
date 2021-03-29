@@ -3,7 +3,23 @@ declare module '@capacitor/core' {
     UsercentricsCmp: UsercentricsCmpPlugin;
   }
 }
+export interface UsercentricsPermissions {
+  acceptedVendors: string[];
+  acceptedCategories: string[];
+}
+
+export interface UsercentricsOptions {
+  controllerID: string;
+  defaultLanguage: string;
+  version: string;
+  debugMode: boolean;
+  predefinedUI: boolean;
+  timeoutMillis: number;
+  noCache: boolean;
+}
 
 export interface UsercentricsCmpPlugin {
-  echo(options: { value: string }): Promise<{ value: string }>;
+  getPermissions(settingsId: string): Promise<UsercentricsPermissions>;
+  setPermissions(settingsId: string, permissions: UsercentricsPermissions, options?: UsercentricsOptions): Promise<void>;
+  reset(settingsId: string): Promise<void>;
 }
