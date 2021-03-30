@@ -19,7 +19,7 @@ export interface UsercentricsOptions {
 }
 
 export interface UsercentricsCmpPlugin {
-  getPermissions(settingsId: string): Promise<UsercentricsPermissions>;
-  setPermissions(settingsId: string, permissions: UsercentricsPermissions, options?: UsercentricsOptions): Promise<void>;
-  reset(settingsId: string): Promise<void>;
+  getPermissions(options: { settingsId: string }): Promise<UsercentricsPermissions>;
+  setPermissions(options: { settingsId: string; permissions: UsercentricsPermissions; userOptions?: UsercentricsOptions }): Promise<void>;
+  reset(options: { settingsId: string }): Promise<void>;
 }

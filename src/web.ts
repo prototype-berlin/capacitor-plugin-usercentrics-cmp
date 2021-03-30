@@ -1,5 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
-import { UsercentricsCmpPlugin, UsercentricsPermissions } from './definitions';
+import { UsercentricsCmpPlugin, UsercentricsOptions, UsercentricsPermissions } from './definitions';
 
 const MOCK_PERMISSIONS: UsercentricsPermissions = {
   acceptedVendors: [],
@@ -14,23 +14,22 @@ export class UsercentricsCmpWeb extends WebPlugin implements UsercentricsCmpPlug
     });
   }
 
-  public async getPermissions(settingsId: string): Promise<UsercentricsPermissions> {
-    console.log(`get permissions for ${settingsId}`);
+  public async getPermissions(options: { settingsId: string }): Promise<UsercentricsPermissions> {
+    console.log(`get permissions for ${options.settingsId}`);
     console.error('Usercentrics plugin not implemented for web. Permissions are mocked');
-    console.info('mocked permissions fo:', MOCK_PERMISSIONS);
 
     return Promise.resolve(MOCK_PERMISSIONS);
   }
 
-  public async setPermissions(settingsId: string, permissions: UsercentricsPermissions): Promise<void> {
-    console.log(`set permissions for ${settingsId}`, permissions);
+  public async setPermissions(options: { settingsId: string; permissions: UsercentricsPermissions; userOptions?: UsercentricsOptions }): Promise<void> {
+    console.log(`set permissions for ${options.settingsId}`, options.permissions);
     console.error('Usercentrics plugin not implemented for web.');
 
     return Promise.resolve();
   }
 
-  public async reset(settingsId: string): Promise<void> {
-    console.log(`reset permissions for ${settingsId}`);
+  public async reset(options: { settingsId: string }): Promise<void> {
+    console.log(`reset permissions for ${options.settingsId}`);
     console.error('Usercentrics plugin not implemented for web.');
 
     return Promise.resolve();

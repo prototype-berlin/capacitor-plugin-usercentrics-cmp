@@ -56,9 +56,9 @@
   "swiftlint": "@ionic/swiftlint-config",
   "repository": {
     "type": "git",
-    "url": "https://git.prototype.berlin/prototype-berlin/usercentrics-cmp.git"
+    "url": "https://git.prototype.berlin/prototype-berlin/capacitor-plugin-usercentrics-cmp.git"
   },
   "bugs": {
-    "url": "https://git.prototype.berlin/prototype-berlin/usercentrics-cmp.git/issues"
+    "url": "https://git.prototype.berlin/prototype-berlin/capacitor-plugin-usercentrics-cmp.git/issues"
   }
 }
