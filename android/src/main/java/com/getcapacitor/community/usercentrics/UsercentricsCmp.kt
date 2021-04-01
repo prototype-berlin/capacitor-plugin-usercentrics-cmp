@@ -1,4 +1,4 @@
-package berlin.prototype.capacitor.plugins.usercentrics;
+package com.getcapacitor.community.usercentrics;
 
 import com.getcapacitor.*
 import com.usercentrics.sdk.*
