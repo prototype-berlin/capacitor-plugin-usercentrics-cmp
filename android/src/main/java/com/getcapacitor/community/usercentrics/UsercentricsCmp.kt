@@ -1,12 +1,18 @@
-package com.getcapacitor.community.usercentrics;
+package com.getcapacitor.community.usercentrics
 
 import android.util.Log
-import com.getcapacitor.*
+import org.json.JSONArray
+
+import com.getcapacitor.JSObject
+import com.getcapacitor.NativePlugin
+import com.getcapacitor.Plugin
+import com.getcapacitor.PluginCall
+import com.getcapacitor.PluginMethod
+
 import com.usercentrics.sdk.Usercentrics
 import com.usercentrics.sdk.UsercentricsActivity
 import com.usercentrics.sdk.models.common.InitialView
 import com.usercentrics.sdk.models.common.UserOptions
-import org.json.JSONArray
 
 @NativePlugin
 class UsercentricsCmp : Plugin() {
@@ -30,7 +36,7 @@ class UsercentricsCmp : Plugin() {
       return
     }
 
-    Log.d(TAG, settingsId);
+    Log.d(TAG, settingsId)
 
     val usercentrics = Usercentrics(
       settingsId = settingsId,
@@ -49,8 +55,8 @@ class UsercentricsCmp : Plugin() {
 
       },
       onFailure = { error ->
-        Log.e(TAG, error.toString());
-        call.reject("error");
+        Log.e(TAG, error.toString())
+        call.reject("error")
       }
     )
   }
@@ -78,7 +84,7 @@ class UsercentricsCmp : Plugin() {
   }
 
   private fun presentCMP(call: PluginCall, settingsId: String, usercentrics: Usercentrics) {
-    Log.d(TAG, "present cmp");
+    Log.d(TAG, "present cmp")
 
     UsercentricsActivity.start(
       context = context,
@@ -111,8 +117,8 @@ class UsercentricsCmp : Plugin() {
     consents.put("acceptedCategories", JSONArray(acceptedCategories))
     consents.put("acceptedVendors", JSONArray(acceptedServices))
 
-    Log.d(TAG, "get permissions");
-    Log.d(TAG, consents.toString());
+    Log.d(TAG, "get permissions")
+    Log.d(TAG, consents.toString())
     call.resolve(consents)
   }
 }
