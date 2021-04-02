@@ -3,23 +3,42 @@ declare module '@capacitor/core' {
     UsercentricsCmp: UsercentricsCmpPlugin;
   }
 }
-export interface UsercentricsPermissions {
-  acceptedVendors: string[];
-  acceptedCategories: string[];
+
+export interface UsercentricsCategory {
+  id: string;
+  label: string;
+  isEssential: boolean;
 }
 
+export interface UsercentricsBaseVendor {
+  id: string;
+  label: string;
+}
+
+export interface UsercentricsVendor extends UsercentricsBaseVendor {
+  categoryId: string;
+  isEssential: boolean;
+  subVendors?: UsercentricsBaseVendor[];
+}
+
+export interface UsercentricsConsents {
+  acceptedCategories: UsercentricsCategory[];
+  acceptedVendors: UsercentricsVendor[];
+}
+
+// currently not used / hard coded in android and ios plugin
 export interface UsercentricsOptions {
-  controllerID: string;
   defaultLanguage: string;
-  version: string;
-  debugMode: boolean;
   predefinedUI: boolean;
-  timeoutMillis: number;
-  noCache: boolean;
+  controllerID?: string;
+  version?: string;
+  debugMode?: boolean;
+  timeoutMillis?: number;
+  noCache?: boolean;
 }
 
 export interface UsercentricsCmpPlugin {
-  getPermissions(options: { settingsId: string }): Promise<UsercentricsPermissions>;
-  setPermissions(options: { settingsId: string; permissions: UsercentricsPermissions; userOptions?: UsercentricsOptions }): Promise<void>;
+  getConsents(options: { settingsId: string }): Promise<UsercentricsConsents>;
+  updateConsents(options: { settingsId: string }): Promise<UsercentricsConsents>;
   reset(options: { settingsId: string }): Promise<void>;
 }
