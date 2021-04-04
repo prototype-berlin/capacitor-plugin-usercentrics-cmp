@@ -3,7 +3,6 @@ import { UsercentricsCmpPlugin, UsercentricsConsents } from './definitions';
 
 const MOCK_PERMISSIONS: UsercentricsConsents = {
   acceptedVendors: [],
-  acceptedCategories: [],
 };
 
 export class UsercentricsCmpWeb extends WebPlugin implements UsercentricsCmpPlugin {

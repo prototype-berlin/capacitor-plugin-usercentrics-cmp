@@ -1,17 +1,22 @@
 package com.getcapacitor.community.usercentrics
 
+import android.content.Intent
 import android.util.Log
 import com.getcapacitor.*
+import com.usercentrics.sdk.ServiceResult
 
 import com.usercentrics.sdk.Usercentrics
 import com.usercentrics.sdk.UsercentricsActivity
 import com.usercentrics.sdk.models.common.InitialView
 import com.usercentrics.sdk.models.common.UserOptions
 import com.usercentrics.sdk.models.settings.BaseService
+import com.usercentrics.sdk.models.settings.Service
 
-@NativePlugin
+@NativePlugin(requestCodes = [UsercentricsActivity.REQUEST_CODE, UsercentricsActivity.RESULT_OK_CODE, UsercentricsActivity.RESULT_ERROR_CODE])
 class UsercentricsCmp : Plugin() {
   private val TAG = "UsercentricsCmp"
+  private var settingsId: String? = null
+  private var usercentrics: Usercentrics? = null
 
   // TODO: get userOptions via optional parameter (JSObject)
   private val userOptions = UserOptions(
@@ -20,27 +25,52 @@ class UsercentricsCmp : Plugin() {
 
   @PluginMethod
   fun getConsents(call: PluginCall) {
-    val settingsId = call.getString("settingsId", "")
+    settingsId = call.getString("settingsId", "")
 
     if (settingsId == "") {
       call.reject("settingsId missing")
       return
     }
 
-    val usercentrics = Usercentrics(
-      settingsId = settingsId,
+    saveCall(call)
+
+    usercentrics =  Usercentrics(
+      settingsId = settingsId!!,
       options = userOptions,
       appContext = context
     )
 
-    usercentrics.initialize(
+    usercentrics!!.initialize(
       callback = { initialValues ->
         when (initialValues.initialLayer) {
-          InitialView.FIRST_LAYER -> presentCMP(call, settingsId, usercentrics)
+          InitialView.FIRST_LAYER -> presentCMP()
           InitialView.NONE -> {
-            mapConsents(call, settingsId, usercentrics)
+            mapConsents(call)
           }
         }
+      },
+      onFailure = { error ->
+        Log.e(TAG, error.toString())
+        call.reject("error")
+        freeSavedCall()
+      }
+    )
+  }
+
+  @PluginMethod
+  fun updateConsents(call: PluginCall) {
+    saveCall(call)
+    presentCMP()
+  }
+
+  @PluginMethod
+  fun reset(call: PluginCall) {
+    saveCall(call)
+
+    usercentrics!!.resetUserSession(
+      callback = {
+        Log.d(TAG, "reset cmp")
+        call.resolve()
       },
       onFailure = { error ->
         Log.e(TAG, error.toString())
@@ -49,85 +79,73 @@ class UsercentricsCmp : Plugin() {
     )
   }
 
-  @PluginMethod
-  fun updateConsents(call: PluginCall) {
-    val settingsId = call.getString("settingsId", "")
-    if (settingsId == "") {
-      call.reject("settingsId missing")
+  override fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.handleOnActivityResult(requestCode, resultCode, data)
+    val call = savedCall
+
+    if (call == null) {
+      Log.e(TAG, "could not find a saved PluginCall, discarding activity result")
       return
     }
-    val permissions = call.getObject("permissions", JSObject())
-    call.resolve()
-  }
 
-  @PluginMethod
-  fun reset(call: PluginCall) {
-    val settingsId = call.getString("settingsId", "")
-    if (settingsId == "") {
-      call.reject("settingsId missing")
+    Log.d(TAG, "handleOnActivityResult called with request code: $requestCode and resultCode: $resultCode")
+
+    if (requestCode == UsercentricsActivity.REQUEST_CODE && resultCode == UsercentricsActivity.RESULT_OK_CODE) {
+      mapConsents(call, UsercentricsActivity.getResult(data))
       return
     }
-    call.resolve()
+
+    freeSavedCall()
   }
 
-  private fun presentCMP(call: PluginCall, settingsId: String, usercentrics: Usercentrics) {
+  private fun presentCMP() {
     Log.d(TAG, "present cmp for $settingsId")
 
     UsercentricsActivity.start(
       context = context,
-      settingsID = settingsId,
-      userOptions = userOptions
+      settingsID = settingsId!!,
+      userOptions = userOptions,
     )
   }
 
-  private fun mapConsents(call: PluginCall, settingsId: String, usercentrics: Usercentrics) {
-    val acceptedCategories = getMappedCategories(usercentrics)
-    val acceptedVendors = getMappedAcceptedVendors(usercentrics)
+  private fun mapConsents(call: PluginCall, result: List<ServiceResult>? = null) {
+    val acceptedVendors = getMappedAcceptedVendors(result)
 
     val consents = JSObject()
-    consents.put("acceptedCategories", JSArray(acceptedCategories))
     consents.put("acceptedVendors", JSArray(acceptedVendors))
 
-    call.resolve(consents)
+    call.success(consents)
+    freeSavedCall()
   }
 
-  private fun getMappedCategories(usercentrics: Usercentrics): ArrayList<JSObject> {
-    val acceptedCategories = arrayListOf<JSObject>()
-
-    // set accepted categories
-    val categories = usercentrics.getCategories()
-    if (categories != null) {
-      for (category in categories) {
-        val jsCategory = JSObject()
-        jsCategory.put("id", category.slug)
-        jsCategory.put("label", category.label)
-        jsCategory.put("isEssential", category.isEssential)
-
-        acceptedCategories.add(jsCategory)
-      }
-    }
-
-    return acceptedCategories
-  }
-
-  private fun getMappedAcceptedVendors(usercentrics: Usercentrics): ArrayList<JSObject> {
+  private fun getMappedAcceptedVendors(result: List<ServiceResult>? = null): ArrayList<JSObject> {
+    val allVendors = usercentrics!!.getServices()
     val acceptedVendors = arrayListOf<JSObject>()
 
-    val vendors = usercentrics.getServices()
-    if (vendors != null) {
-      for (vendor in vendors) {
-        val jsVendor = JSObject()
-        jsVendor.put("id", vendor.id)
-        jsVendor.put("label", vendor.name)
-        jsVendor.put("categoryId", vendor.categorySlug)
-        jsVendor.put("isEssential", vendor.isEssential)
+    if (allVendors != null) {
+      for (vendor in allVendors) {
+        var consentStatus: Boolean = vendor.consent.status
 
-        if (vendor.subServices != null) {
-          val jsSubVendors = getMappedSubVendors(vendor.subServices)
-          jsVendor.put("subVendors", JSArray(jsSubVendors))
+        //  `allVendors doesn't contain updated consent status when changing consents via privacy manager (handleOnActivityResult)
+        // therefore we need `result` as optional parameter to check current consent status
+        if (result != null) {
+          val item = result.find { it.id == vendor.id }
+          consentStatus = item!!.consentStatus
         }
 
-        acceptedVendors.add(jsVendor)
+        if (consentStatus) {
+          val jsVendor = JSObject()
+          jsVendor.put("id", vendor.id)
+          jsVendor.put("label", vendor.name)
+          jsVendor.put("categoryId", vendor.categorySlug)
+
+          // TODO: provide user centrics example with sub vendors
+          val jsSubVendors = getMappedSubVendors(vendor.subServices)
+          jsVendor.put("subVendors", JSArray(jsSubVendors))
+
+          acceptedVendors.add(jsVendor)
+          Log.d(TAG, "accepted vendor: ${vendor.id} (${vendor.name}), category: ${vendor.categorySlug}")
+        }
       }
     }
 
@@ -147,3 +165,4 @@ class UsercentricsCmp : Plugin() {
     return jsSubVendors
   }
 }
+

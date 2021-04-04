@@ -4,12 +4,6 @@ declare module '@capacitor/core' {
   }
 }
 
-export interface UsercentricsCategory {
-  id: string;
-  label: string;
-  isEssential: boolean;
-}
-
 export interface UsercentricsBaseVendor {
   id: string;
   label: string;
@@ -17,19 +11,17 @@ export interface UsercentricsBaseVendor {
 
 export interface UsercentricsVendor extends UsercentricsBaseVendor {
   categoryId: string;
-  isEssential: boolean;
-  subVendors?: UsercentricsBaseVendor[];
+  subVendors: UsercentricsBaseVendor[];
 }
 
 export interface UsercentricsConsents {
-  acceptedCategories: UsercentricsCategory[];
   acceptedVendors: UsercentricsVendor[];
 }
 
 // currently not used / hard coded in android and ios plugin
 export interface UsercentricsOptions {
-  defaultLanguage: string;
   predefinedUI: boolean;
+  defaultLanguage?: string;
   controllerID?: string;
   version?: string;
   debugMode?: boolean;
