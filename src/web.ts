@@ -1,7 +1,7 @@
 import { WebPlugin, registerWebPlugin } from '@capacitor/core';
 import { UsercentricsCmpPlugin, UsercentricsConsents } from './definitions';
 
-const MOCK_PERMISSIONS: UsercentricsConsents = {
+const MOCK_CONSENTS: UsercentricsConsents = {
   acceptedVendors: [],
 };
 
@@ -15,23 +15,23 @@ export class UsercentricsCmpWeb extends WebPlugin implements UsercentricsCmpPlug
 
   public async getConsents(options: { settingsId: string }): Promise<UsercentricsConsents> {
     console.log(`get consents for ${options.settingsId}`);
-    console.error('Usercentrics plugin not implemented for web. Permissions are mocked');
+    console.error('Usercentrics plugin not implemented for web. Return empty array of accepted vendors');
 
-    return Promise.resolve(MOCK_PERMISSIONS);
+    return Promise.resolve(MOCK_CONSENTS);
   }
 
   public async updateConsents(options: { settingsId: string }): Promise<UsercentricsConsents> {
-    console.log(`set consents for ${options.settingsId}`);
-    console.error('Usercentrics plugin not implemented for web.');
+    console.log(`update consents for ${options.settingsId}`);
+    console.error('Usercentrics plugin not implemented for web. Return empty array of accepted vendors');
 
-    return Promise.resolve(MOCK_PERMISSIONS);
+    return Promise.resolve(MOCK_CONSENTS);
   }
 
-  public async reset(options: { settingsId: string }): Promise<void> {
+  public async resetConsents(options: { settingsId: string }): Promise<UsercentricsConsents> {
     console.log(`reset consents for ${options.settingsId}`);
-    console.error('Usercentrics plugin not implemented for web.');
+    console.error('Usercentrics plugin not implemented for web. Return empty array of accepted vendors');
 
-    return Promise.resolve();
+    return Promise.resolve(MOCK_CONSENTS);
   }
 }
 

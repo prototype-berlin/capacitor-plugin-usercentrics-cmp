@@ -32,5 +32,5 @@ export interface UsercentricsOptions {
 export interface UsercentricsCmpPlugin {
   getConsents(options: { settingsId: string }): Promise<UsercentricsConsents>;
   updateConsents(options: { settingsId: string }): Promise<UsercentricsConsents>;
-  reset(options: { settingsId: string }): Promise<void>;
+  resetConsents(options: { settingsId: string }): Promise<UsercentricsConsents>;
 }

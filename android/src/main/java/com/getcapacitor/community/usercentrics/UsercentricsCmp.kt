@@ -3,25 +3,25 @@ package com.getcapacitor.community.usercentrics
 import android.content.Intent
 import android.util.Log
 import com.getcapacitor.*
-import com.usercentrics.sdk.ServiceResult
 
+import com.usercentrics.sdk.ServiceResult
 import com.usercentrics.sdk.Usercentrics
 import com.usercentrics.sdk.UsercentricsActivity
 import com.usercentrics.sdk.models.common.InitialView
 import com.usercentrics.sdk.models.common.UserOptions
 import com.usercentrics.sdk.models.settings.BaseService
-import com.usercentrics.sdk.models.settings.Service
 
 @NativePlugin(requestCodes = [UsercentricsActivity.REQUEST_CODE, UsercentricsActivity.RESULT_OK_CODE, UsercentricsActivity.RESULT_ERROR_CODE])
 class UsercentricsCmp : Plugin() {
   private val TAG = "UsercentricsCmp"
-  private var settingsId: String? = null
-  private var usercentrics: Usercentrics? = null
 
   // TODO: get userOptions via optional parameter (JSObject)
   private val userOptions = UserOptions(
     predefinedUI = true
   )
+
+  private var settingsId: String? = null
+  private var usercentrics: Usercentrics? = null
 
   @PluginMethod
   fun getConsents(call: PluginCall) {
@@ -64,13 +64,13 @@ class UsercentricsCmp : Plugin() {
   }
 
   @PluginMethod
-  fun reset(call: PluginCall) {
+  fun resetConsents(call: PluginCall) {
     saveCall(call)
 
     usercentrics!!.resetUserSession(
       callback = {
         Log.d(TAG, "reset cmp")
-        call.resolve()
+        mapConsents(call)
       },
       onFailure = { error ->
         Log.e(TAG, error.toString())
