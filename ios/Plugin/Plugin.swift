@@ -13,49 +13,45 @@ public class UsercentricsCmp: CAPPlugin {
       print("load usercentrics cmp plugin");
     }
 
-    @objc func getPermissions(_ call: CAPPluginCall) {
+    @objc func getConsents(_ call: CAPPluginCall) {
       guard let settingsId = call.options["settingsId"] as? String else {
         call.reject("settingsId missing")
         return
       }
 
-      let userOptions = UserOptions(controllerId: nil,
-                              defaultLanguage: "de",
-                              version: nil,
-                              debugMode: false,
-                              predefinedUI: true,
-                              timeoutMillis: nil,
-                              noCache:false)
+      let userOptions = UserOptions(predefinedUI: true)
 
       let usercentrics = Usercentrics(settingsId: settingsId,
                                       options: userOptions)
 
       usercentrics.initialize { initialValues in
           call.resolve([
-                    "acceptedVendors": ["vendor1", "vendor2"],
-                    "acceptedCategories": ["cat1", "cat2"]
+                    "acceptedVendors": [],
                 ])
       } onFailure: { error in
         call.reject("ERROR")
       }
     }
 
-    @objc func setPermissions(_ call: CAPPluginCall) {
+    @objc func updateConsents(_ call: CAPPluginCall) {
       guard let settingsId = call.options["settingsId"] as? String else {
         call.reject("settingsId missing")
         return
       }
 
-      let permissions = call.getObject("address") ?? [:]
-      call.resolve()
+        call.resolve([
+          "acceptedVendors": [],
+        ])
     }
 
-    @objc func reset(_ call: CAPPluginCall) {
+    @objc func resetConsents(_ call: CAPPluginCall) {
       guard let settingsId = call.options["settingsId"] as? String else {
         call.reject("settingsId missing")
         return
       }
 
-      call.resolve()
+        call.resolve([
+          "acceptedVendors": [],
+        ])
     }
 }
