@@ -138,10 +138,7 @@ class UsercentricsCmp : Plugin() {
           jsVendor.put("id", vendor.id)
           jsVendor.put("label", vendor.name)
           jsVendor.put("categoryId", vendor.categorySlug)
-
-          // TODO: provide user centrics example with sub vendors
-          val jsSubVendors = getMappedSubVendors(vendor.subServices)
-          jsVendor.put("subVendors", JSArray(jsSubVendors))
+          jsVendor.put("subVendors", JSArray(getMappedSubVendors(vendor.subServices)))
 
           acceptedVendors.add(jsVendor)
           Log.d(TAG, "accepted vendor: ${vendor.id} (${vendor.name}), category: ${vendor.categorySlug}")
@@ -152,6 +149,7 @@ class UsercentricsCmp : Plugin() {
     return acceptedVendors
   }
 
+  // TODO: provide user centrics example with sub vendors
   private fun getMappedSubVendors(subVendors: List<BaseService>): ArrayList<JSObject> {
     val jsSubVendors = arrayListOf<JSObject>()
     for (subVendor in subVendors) {

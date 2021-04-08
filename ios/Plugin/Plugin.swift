@@ -78,10 +78,43 @@ public class UsercentricsCmp: CAPPlugin {
     }
     
     func mapConsents(_ call: CAPPluginCall) {
-        print("TODO: map consents properly")
+        guard let vendors = self.usercentrics?.getServices() else {
+            call.reject("vendors missing")
+            return
+        }
         
-        call.resolve([
-            "acceptedVendors": [],
+        var acceptedVendors: [[String: Any]] = []
+        for vendor in vendors {
+            if (vendor.consent.status) {
+                let mappedVendor: [String: Any] = [
+                    "id": vendor.id,
+                    "label": vendor.name,
+                    "categoryId": vendor.categorySlug,
+                    "subVendors": getMappedSubVendors(vendor.subServices)
+                ]
+                
+                acceptedVendors.append(mappedVendor)
+            }
+        }
+        
+        call.success([
+            "acceptedVendors": acceptedVendors
         ])
+    }
+    
+    // TODO: provide user centrics example with sub vendors
+    func getMappedSubVendors(_ subVendors: [BaseService]) -> [[String: Any]] {
+        var mappedSubVendors: [[String: Any]] = []
+        
+        for subVendor in subVendors {
+            let mappedSubVendor: [String: Any] = [
+                "id": subVendor.id,
+                "label": subVendor.name,
+            ]
+            
+            mappedSubVendors.append(mappedSubVendor)
+        }
+        
+        return mappedSubVendors
     }
 }
