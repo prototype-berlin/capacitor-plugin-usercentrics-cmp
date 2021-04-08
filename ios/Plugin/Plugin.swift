@@ -36,7 +36,7 @@ public class UsercentricsCmp: CAPPlugin {
         }
         
         DispatchQueue.main.async {
-            self.usercentrics = Usercentrics(settingsId: self.settingsId, options: self.userOptions)
+            self.usercentrics = Usercentrics(settingsId: self.settingsId!, options: self.userOptions)
             self.usercentrics?.initialize { initialValues in
                 switch initialValues.initialLayer {
                 case .firstLayer:
@@ -53,14 +53,9 @@ public class UsercentricsCmp: CAPPlugin {
     }
     
     @objc func updateConsents(_ call: CAPPluginCall) {
-        guard let settingsId = call.options["settingsId"] as? String else {
-            call.reject("settingsId missing")
-            return
+        DispatchQueue.main.async {
+            self.presentCmp(call)
         }
-        
-        call.resolve([
-            "acceptedVendors": [],
-        ])
     }
     
     @objc func resetConsents(_ call: CAPPluginCall) {
