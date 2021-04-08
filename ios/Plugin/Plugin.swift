@@ -9,32 +9,38 @@ import Usercentrics
 @objc(UsercentricsCmp)
 public class UsercentricsCmp: CAPPlugin {
     var predefinedUI: UIViewController?
+    var usercentrics: Usercentrics?
+    var settingsId: String?
+    
+    // TODO: get userOptions via optional parameter (JSObject)
+    var userOptions = UserOptions(controllerId: nil,
+                                  defaultLanguage: nil,
+                                  version: nil,
+                                  debugMode: false,
+                                  predefinedUI: true,
+                                  timeoutMillis: nil,
+                                  noCache:false
+    )
     
     @objc override public func load() {
-      // Called when the plugin is first constructed in the bridge
-      print("load usercentrics cmp plugin");
+        // Called when the plugin is first constructed in the bridge
+        print("load usercentrics cmp plugin");
     }
-
+    
     @objc func getConsents(_ call: CAPPluginCall) {
-        guard let settingsId = call.options["settingsId"] as? String else {
+        self.settingsId = call.options["settingsId"] as? String
+        
+        if (self.settingsId ?? "").isEmpty {
             call.reject("settingsId missing")
             return
         }
         
         DispatchQueue.main.async {
-            let userOptions = UserOptions(controllerId: nil,
-                                          defaultLanguage: nil,
-                                          version: nil,
-                                          debugMode: false,
-                                          predefinedUI: true,
-                                          timeoutMillis: nil,
-                                          noCache:false)
-            
-            let usercentrics = Usercentrics(settingsId: settingsId, options: userOptions)
-            usercentrics.initialize { initialValues in
+            self.usercentrics = Usercentrics(settingsId: self.settingsId, options: self.userOptions)
+            self.usercentrics?.initialize { initialValues in
                 switch initialValues.initialLayer {
                 case .firstLayer:
-                    self.presentCmp(call, usercentrics)
+                    self.presentCmp(call)
                 case .none:
                     self.mapConsents(call)
                 default:
@@ -68,8 +74,8 @@ public class UsercentricsCmp: CAPPlugin {
         ])
     }
     
-    func presentCmp(_ call: CAPPluginCall, _ usercentrics: Usercentrics?) {
-        self.predefinedUI = usercentrics?.getPredefinedUI(customAssets: nil, showCloseButton: false) {
+    func presentCmp(_ call: CAPPluginCall) {
+        self.predefinedUI = self.usercentrics?.getPredefinedUI(customAssets: nil, showCloseButton: false) {
             self.predefinedUI?.dismiss(animated: true, completion: nil)
             self.mapConsents(call)
         }
