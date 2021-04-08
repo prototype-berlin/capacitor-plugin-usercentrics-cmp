@@ -24,7 +24,7 @@ public class UsercentricsCmp: CAPPlugin {
     
     @objc override public func load() {
         // Called when the plugin is first constructed in the bridge
-        print("load usercentrics cmp plugin");
+        print("load usercentrics cmp plugin")
     }
     
     @objc func getConsents(_ call: CAPPluginCall) {
@@ -41,13 +41,11 @@ public class UsercentricsCmp: CAPPlugin {
                 switch initialValues.initialLayer {
                 case .firstLayer:
                     self.presentCmp(call)
-                case .none:
-                    self.mapConsents(call)
                 default:
-                    print(initialValues.initialLayer)
+                    self.mapConsents(call)
                 }
             } onFailure: { error in
-                print(error);
+                print(error)
             }
         }
     }
@@ -59,14 +57,13 @@ public class UsercentricsCmp: CAPPlugin {
     }
     
     @objc func resetConsents(_ call: CAPPluginCall) {
-        guard let settingsId = call.options["settingsId"] as? String else {
-            call.reject("settingsId missing")
-            return
+        DispatchQueue.main.async {
+            self.usercentrics?.resetUserSession(callback: {_ in
+                self.mapConsents(call)
+            }, onFailure: { error in
+                print(error)
+            })
         }
-        
-        call.resolve([
-            "acceptedVendors": [],
-        ])
     }
     
     func presentCmp(_ call: CAPPluginCall) {
@@ -81,7 +78,7 @@ public class UsercentricsCmp: CAPPlugin {
     }
     
     func mapConsents(_ call: CAPPluginCall) {
-        print("TODO: map consents properly");
+        print("TODO: map consents properly")
         
         call.resolve([
             "acceptedVendors": [],
