@@ -1,8 +1,3 @@
-declare module '@capacitor/core' {
-  interface PluginRegistry {
-    UsercentricsCmp: UsercentricsCmpPlugin;
-  }
-}
 
 export interface UsercentricsBaseVendor {
   id: string;
@@ -30,7 +25,7 @@ export interface UsercentricsOptions {
 }
 
 export interface UsercentricsCmpPlugin {
-  getConsents(options: { settingsId: string }): Promise<UsercentricsConsents>;
-  updateConsents(options: { settingsId: string }): Promise<UsercentricsConsents>;
-  resetConsents(options: { settingsId: string }): Promise<UsercentricsConsents>;
+  init(options: { settingsId: string }): Promise<UsercentricsConsents>;
+  update(options: { settingsId: string }): Promise<UsercentricsConsents>;
+  reset(options: { settingsId: string }): Promise<UsercentricsConsents>;
 }
