@@ -1,0 +1,134 @@
+{
+  "api": {
+    "name": "UsercentricsCmpPlugin",
+    "slug": "usercentricscmpplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "init",
+        "signature": "(options: { settingsId: string; }) => Promise<UsercentricsConsents>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ settingsId: string; }"
+          }
+        ],
+        "returns": "Promise<UsercentricsConsents>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "UsercentricsConsents"
+        ],
+        "slug": "init"
+      },
+      {
+        "name": "update",
+        "signature": "(options: { settingsId: string; }) => Promise<UsercentricsConsents>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ settingsId: string; }"
+          }
+        ],
+        "returns": "Promise<UsercentricsConsents>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "UsercentricsConsents"
+        ],
+        "slug": "update"
+      },
+      {
+        "name": "reset",
+        "signature": "(options: { settingsId: string; }) => Promise<UsercentricsConsents>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ settingsId: string; }"
+          }
+        ],
+        "returns": "Promise<UsercentricsConsents>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "UsercentricsConsents"
+        ],
+        "slug": "reset"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "UsercentricsConsents",
+      "slug": "usercentricsconsents",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "acceptedVendors",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "UsercentricsVendor"
+          ],
+          "type": "UsercentricsVendor[]"
+        }
+      ]
+    },
+    {
+      "name": "UsercentricsVendor",
+      "slug": "usercentricsvendor",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "categoryId",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "subVendors",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "UsercentricsBaseVendor"
+          ],
+          "type": "UsercentricsBaseVendor[]"
+        }
+      ]
+    },
+    {
+      "name": "UsercentricsBaseVendor",
+      "slug": "usercentricsbasevendor",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "id",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "label",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "enums": []
+}
