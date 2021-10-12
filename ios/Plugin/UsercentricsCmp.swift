@@ -1,18 +1,10 @@
 import Foundation
 
 @objc public class UsercentricsCmp: NSObject {
-    @objc public func initialize(_ settingsId: String) -> Bool {
-        print("init with settings id: ", settingsId)
-        return true
-    }
-    
-    @objc public func update() -> Bool {
-        print("update usercentrics")
-        return true
-    }
+    private var viewController: UIViewController?
 
-    @objc public func reset() -> Bool {
-        print("reset usercentrics")
-        return true
+    // TODO: clean up plugin code
+    // (e.g. move cmp logic from UsercentricsCmpPlugin to UsercentricsCmp)
+    @objc public func initialize(_ viewController: UIViewController?, _ settingsId: String) -> Void {
     }
 }
