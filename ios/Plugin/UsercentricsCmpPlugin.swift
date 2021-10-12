@@ -10,13 +10,13 @@ import UsercentricsUI
 @objc(UsercentricsCmpPlugin)
 public class UsercentricsCmpPlugin: CAPPlugin {
     private var _call: CAPPluginCall?
-    private var usercentricsConfigured: Bool?
+    private var usercentricsInitialized: Bool?
 
     @objc(init:)
     func initialize(_ call: CAPPluginCall) {
         self._call = call
 
-        if ((self.usercentricsConfigured) == nil) {
+        if ((self.usercentricsInitialized) == nil) {
             self.configureUsercentrics()
         }
 
@@ -38,7 +38,7 @@ public class UsercentricsCmpPlugin: CAPPlugin {
     @objc func update(_ call: CAPPluginCall) {
         self._call = call
 
-        if ((self.usercentricsConfigured) == nil) {
+        if ((self.usercentricsInitialized) == nil) {
             self._call?.reject("Usercentrics not configured yet. Ensure init function has beeen called before")
 
             return;
@@ -52,7 +52,7 @@ public class UsercentricsCmpPlugin: CAPPlugin {
     @objc func reset(_ call: CAPPluginCall) {
         self._call = call
 
-        if ((self.usercentricsConfigured) == nil) {
+        if ((self.usercentricsInitialized) == nil) {
             self._call?.reject("Usercentrics not configured yet. Ensure init function has beeen called before")
 
             return;
@@ -61,7 +61,7 @@ public class UsercentricsCmpPlugin: CAPPlugin {
         DispatchQueue.main.async {
             UsercentricsCore.reset();
 
-            self.usercentricsConfigured = nil;
+            self.usercentricsInitialized = nil;
             self._call?.resolve(["vendors": []])
         }
     }
@@ -75,7 +75,7 @@ public class UsercentricsCmpPlugin: CAPPlugin {
         let options = UsercentricsOptions(settingsId: settingsId)
         // options.loggerLevel = .debug
         UsercentricsCore.configure(options: options)
-        self.usercentricsConfigured = true;
+        self.usercentricsInitialized = true;
     }
 
 
