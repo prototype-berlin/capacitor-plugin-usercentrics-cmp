@@ -1,31 +1,17 @@
-export interface UsercentricsBaseVendor {
+export interface UsercentricsVendor {
+    status: boolean;
     id: string;
+    type: any;
+    version: string;
     label: string;
 }
-export interface UsercentricsVendor extends UsercentricsBaseVendor {
-    categoryId: string;
-    subVendors: UsercentricsBaseVendor[];
-}
 export interface UsercentricsConsents {
-    acceptedVendors: UsercentricsVendor[];
-}
-export interface UsercentricsOptions {
-    predefinedUI: boolean;
-    defaultLanguage?: string;
-    controllerID?: string;
-    version?: string;
-    debugMode?: boolean;
-    timeoutMillis?: number;
-    noCache?: boolean;
+    vendors: UsercentricsVendor[];
 }
 export interface UsercentricsCmpPlugin {
     init(options: {
         settingsId: string;
     }): Promise<UsercentricsConsents>;
-    update(options: {
-        settingsId: string;
-    }): Promise<UsercentricsConsents>;
-    reset(options: {
-        settingsId: string;
-    }): Promise<UsercentricsConsents>;
+    update(): Promise<UsercentricsConsents>;
+    reset(): Promise<UsercentricsConsents>;
 }

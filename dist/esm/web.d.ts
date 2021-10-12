@@ -4,10 +4,6 @@ export declare class UsercentricsCmpWeb extends WebPlugin implements Usercentric
     init(options: {
         settingsId: string;
     }): Promise<UsercentricsConsents>;
-    update(options: {
-        settingsId: string;
-    }): Promise<UsercentricsConsents>;
-    reset(options: {
-        settingsId: string;
-    }): Promise<UsercentricsConsents>;
+    update(): Promise<UsercentricsConsents>;
+    reset(): Promise<UsercentricsConsents>;
 }

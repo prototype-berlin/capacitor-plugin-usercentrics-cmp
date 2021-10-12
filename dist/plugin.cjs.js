@@ -9,24 +9,27 @@ const UsercentricsCmp = core.registerPlugin('UsercentricsCmp', {
 });
 
 const MOCK_CONSENTS = {
-    acceptedVendors: [
+    vendors: [
         {
-            'id': 'MbHgRDHhR',
-            'label': 'Firebase (ohne Analysefunktion)',
-            'categoryId': 'essential',
-            'subVendors': [],
-        },
-        {
-            'id': 'yBaAnQfrt',
+            'status': true,
+            'type': null,
+            'version': '1.0',
+            'id': 'uNl9XGnZC',
             'label': 'Google Firebase',
-            'categoryId': 'marketing',
-            'subVendors': [],
         },
         {
+            'status': false,
+            'type': 'test',
+            'version': '1.0',
+            'id': 'S1pcEj_jZX',
+            'label': 'Google Maps',
+        },
+        {
+            'status': true,
+            'type': 'explicit',
+            'version': '1.0',
             'id': 'H1Vl5NidjWX',
             'label': 'Usercentrics Consent Management Platform',
-            'categoryId': 'essential',
-            'subVendors': [],
         },
     ],
 };
@@ -36,13 +39,13 @@ class UsercentricsCmpWeb extends core.WebPlugin {
         console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
         return Promise.resolve(MOCK_CONSENTS);
     }
-    async update(options) {
-        console.log(`update consents for ${options.settingsId}`);
+    async update() {
+        console.log(`update consents`);
         console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
         return Promise.resolve(MOCK_CONSENTS);
     }
-    async reset(options) {
-        console.log(`reset consents for ${options.settingsId}`);
+    async reset() {
+        console.log(`reset consents`);
         console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
         return Promise.resolve(MOCK_CONSENTS);
     }

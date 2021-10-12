@@ -14,8 +14,8 @@ npx cap sync
 <docgen-index>
 
 * [`init(...)`](#init)
-* [`update(...)`](#update)
-* [`reset(...)`](#reset)
+* [`update()`](#update)
+* [`reset()`](#reset)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -38,30 +38,22 @@ init(options: { settingsId: string; }) => Promise<UsercentricsConsents>
 --------------------
 
 
-### update(...)
+### update()
 
 ```typescript
-update(options: { settingsId: string; }) => Promise<UsercentricsConsents>
+update() => Promise<UsercentricsConsents>
 ```
-
-| Param         | Type                                 |
-| ------------- | ------------------------------------ |
-| **`options`** | <code>{ settingsId: string; }</code> |
 
 **Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a>&gt;</code>
 
 --------------------
 
 
-### reset(...)
+### reset()
 
 ```typescript
-reset(options: { settingsId: string; }) => Promise<UsercentricsConsents>
+reset() => Promise<UsercentricsConsents>
 ```
-
-| Param         | Type                                 |
-| ------------- | ------------------------------------ |
-| **`options`** | <code>{ settingsId: string; }</code> |
 
 **Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a>&gt;</code>
 
@@ -73,24 +65,19 @@ reset(options: { settingsId: string; }) => Promise<UsercentricsConsents>
 
 #### UsercentricsConsents
 
-| Prop                  | Type                              |
-| --------------------- | --------------------------------- |
-| **`acceptedVendors`** | <code>UsercentricsVendor[]</code> |
+| Prop          | Type                              |
+| ------------- | --------------------------------- |
+| **`vendors`** | <code>UsercentricsVendor[]</code> |
 
 
 #### UsercentricsVendor
 
-| Prop             | Type                                  |
-| ---------------- | ------------------------------------- |
-| **`categoryId`** | <code>string</code>                   |
-| **`subVendors`** | <code>UsercentricsBaseVendor[]</code> |
-
-
-#### UsercentricsBaseVendor
-
-| Prop        | Type                |
-| ----------- | ------------------- |
-| **`id`**    | <code>string</code> |
-| **`label`** | <code>string</code> |
+| Prop          | Type                 |
+| ------------- | -------------------- |
+| **`status`**  | <code>boolean</code> |
+| **`id`**      | <code>string</code>  |
+| **`type`**    | <code>any</code>     |
+| **`version`** | <code>string</code>  |
+| **`label`**   | <code>string</code>  |
 
 </docgen-api>

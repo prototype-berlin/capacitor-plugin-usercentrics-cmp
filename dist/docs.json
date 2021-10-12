@@ -25,14 +25,8 @@
       },
       {
         "name": "update",
-        "signature": "(options: { settingsId: string; }) => Promise<UsercentricsConsents>",
-        "parameters": [
-          {
-            "name": "options",
-            "docs": "",
-            "type": "{ settingsId: string; }"
-          }
-        ],
+        "signature": "() => Promise<UsercentricsConsents>",
+        "parameters": [],
         "returns": "Promise<UsercentricsConsents>",
         "tags": [],
         "docs": "",
@@ -43,14 +37,8 @@
       },
       {
         "name": "reset",
-        "signature": "(options: { settingsId: string; }) => Promise<UsercentricsConsents>",
-        "parameters": [
-          {
-            "name": "options",
-            "docs": "",
-            "type": "{ settingsId: string; }"
-          }
-        ],
+        "signature": "() => Promise<UsercentricsConsents>",
+        "parameters": [],
         "returns": "Promise<UsercentricsConsents>",
         "tags": [],
         "docs": "",
@@ -71,7 +59,7 @@
       "methods": [],
       "properties": [
         {
-          "name": "acceptedVendors",
+          "name": "vendors",
           "tags": [],
           "docs": "",
           "complexTypes": [
@@ -89,32 +77,28 @@
       "methods": [],
       "properties": [
         {
-          "name": "categoryId",
+          "name": "status",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        },
+        {
+          "name": "id",
           "tags": [],
           "docs": "",
           "complexTypes": [],
           "type": "string"
         },
         {
-          "name": "subVendors",
+          "name": "type",
           "tags": [],
           "docs": "",
-          "complexTypes": [
-            "UsercentricsBaseVendor"
-          ],
-          "type": "UsercentricsBaseVendor[]"
-        }
-      ]
-    },
-    {
-      "name": "UsercentricsBaseVendor",
-      "slug": "usercentricsbasevendor",
-      "docs": "",
-      "tags": [],
-      "methods": [],
-      "properties": [
+          "complexTypes": [],
+          "type": "any"
+        },
         {
-          "name": "id",
+          "name": "version",
           "tags": [],
           "docs": "",
           "complexTypes": [],

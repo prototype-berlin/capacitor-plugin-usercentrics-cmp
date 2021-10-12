@@ -3,24 +3,27 @@ import { WebPlugin } from '@capacitor/core';
 import type { UsercentricsCmpPlugin, UsercentricsConsents } from './definitions';
 
 const MOCK_CONSENTS = {
-    acceptedVendors: [
+    vendors: [
         {
-            'id': 'MbHgRDHhR',
-            'label': 'Firebase (ohne Analysefunktion)',
-            'categoryId': 'essential',
-            'subVendors': [],
-        },
-        {
-            'id': 'yBaAnQfrt',
+            'status': true,     
+            'type': null,
+            'version': '1.0',
+            'id': 'uNl9XGnZC',
             'label': 'Google Firebase',
-            'categoryId': 'marketing',
-            'subVendors': [],
         },
         {
+            'status': false,     
+            'type': 'test',
+            'version': '1.0',
+            'id': 'S1pcEj_jZX',
+            'label': 'Google Maps',
+        },
+        {
+            'status': true,     
+            'type': 'explicit',
+            'version': '1.0',
             'id': 'H1Vl5NidjWX',
             'label': 'Usercentrics Consent Management Platform',
-            'categoryId': 'essential',
-            'subVendors': [],
         },
     ],
 };
@@ -33,15 +36,15 @@ export class UsercentricsCmpWeb extends WebPlugin implements UsercentricsCmpPlug
     return Promise.resolve(MOCK_CONSENTS);
   }
 
-  async update(options: { settingsId: string }): Promise<UsercentricsConsents> {
-    console.log(`update consents for ${options.settingsId}`);
+  async update(): Promise<UsercentricsConsents> {
+    console.log(`update consents`);
     console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
 
 
     return Promise.resolve(MOCK_CONSENTS);
   }
-  async reset(options: { settingsId: string }): Promise<UsercentricsConsents> {
-    console.log(`reset consents for ${options.settingsId}`);
+  async reset(): Promise<UsercentricsConsents> {
+    console.log(`reset consents`);
     console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
 
     return Promise.resolve(MOCK_CONSENTS);
