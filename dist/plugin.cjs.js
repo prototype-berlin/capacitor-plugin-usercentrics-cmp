@@ -1,4 +1,13 @@
-import { WebPlugin } from '@capacitor/core';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var core = require('@capacitor/core');
+
+const UsercentricsCmp = core.registerPlugin('UsercentricsCmp', {
+    web: () => Promise.resolve().then(function () { return web; }).then(m => new m.UsercentricsCmpWeb()),
+});
+
 const MOCK_CONSENTS = {
     vendors: [
         {
@@ -24,7 +33,7 @@ const MOCK_CONSENTS = {
         },
     ],
 };
-export class UsercentricsCmpWeb extends WebPlugin {
+class UsercentricsCmpWeb extends core.WebPlugin {
     async init(options) {
         console.log(`get consents for ${options.settingsId}`);
         console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
@@ -41,4 +50,11 @@ export class UsercentricsCmpWeb extends WebPlugin {
         return Promise.resolve(MOCK_CONSENTS);
     }
 }
-//# sourceMappingURL=web.js.map
+
+var web = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    UsercentricsCmpWeb: UsercentricsCmpWeb
+});
+
+exports.UsercentricsCmp = UsercentricsCmp;
+//# sourceMappingURL=plugin.cjs.js.map

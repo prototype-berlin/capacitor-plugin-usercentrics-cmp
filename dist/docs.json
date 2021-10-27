@@ -1,0 +1,118 @@
+{
+  "api": {
+    "name": "UsercentricsCmpPlugin",
+    "slug": "usercentricscmpplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "init",
+        "signature": "(options: { settingsId: string; }) => Promise<UsercentricsConsents>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ settingsId: string; }"
+          }
+        ],
+        "returns": "Promise<UsercentricsConsents>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "UsercentricsConsents"
+        ],
+        "slug": "init"
+      },
+      {
+        "name": "update",
+        "signature": "() => Promise<UsercentricsConsents>",
+        "parameters": [],
+        "returns": "Promise<UsercentricsConsents>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "UsercentricsConsents"
+        ],
+        "slug": "update"
+      },
+      {
+        "name": "reset",
+        "signature": "() => Promise<UsercentricsConsents>",
+        "parameters": [],
+        "returns": "Promise<UsercentricsConsents>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "UsercentricsConsents"
+        ],
+        "slug": "reset"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "UsercentricsConsents",
+      "slug": "usercentricsconsents",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "vendors",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "UsercentricsVendor"
+          ],
+          "type": "UsercentricsVendor[]"
+        }
+      ]
+    },
+    {
+      "name": "UsercentricsVendor",
+      "slug": "usercentricsvendor",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "status",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        },
+        {
+          "name": "id",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "type",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "any"
+        },
+        {
+          "name": "version",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "label",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "enums": []
+}

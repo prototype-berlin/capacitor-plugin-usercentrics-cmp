@@ -1,9 +1,8 @@
-
-  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.getcapacitor.community.usercentrics.usercentricscmp">
-    <application>
-      <activity
-        android:name="com.usercentrics.sdk.UsercentricsActivity">
-      </activity>
-    </application>
-  </manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.getcapacitor.community.usercentrics">
+  <application>
+    <activity
+      android:name="com.usercentrics.sdk.UsercentricsActivity">
+    </activity>
+  </application>
+</manifest>

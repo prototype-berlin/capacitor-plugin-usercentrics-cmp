@@ -1,16 +1,9 @@
 import { WebPlugin } from '@capacitor/core';
-import { UsercentricsCmpPlugin, UsercentricsConsents } from './definitions';
+import type { UsercentricsCmpPlugin, UsercentricsConsents } from './definitions';
 export declare class UsercentricsCmpWeb extends WebPlugin implements UsercentricsCmpPlugin {
-    constructor();
-    getConsents(options: {
+    init(options: {
         settingsId: string;
     }): Promise<UsercentricsConsents>;
-    updateConsents(options: {
-        settingsId: string;
-    }): Promise<UsercentricsConsents>;
-    resetConsents(options: {
-        settingsId: string;
-    }): Promise<UsercentricsConsents>;
+    update(): Promise<UsercentricsConsents>;
+    reset(): Promise<UsercentricsConsents>;
 }
-declare const UsercentricsCmpInstance: UsercentricsCmpWeb;
-export { UsercentricsCmpInstance };
