@@ -61,5 +61,5 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.core:core-ktx:$coreKtx"
-    implementation "com.usercentrics.sdk:usercentrics-ui:2.7.1"
+    implementation "com.usercentrics.sdk:usercentrics-ui:2.0.1"
 }
