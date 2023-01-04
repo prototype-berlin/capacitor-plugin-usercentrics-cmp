@@ -43,9 +43,16 @@ public class UsercentricsCmpPlugin: CAPPlugin {
 
             return;
         }
-
-        DispatchQueue.main.async {
-            self.presentCmp()
+        
+        UsercentricsCore.shared.changeLanguage(language: self._call?.getString("language") ?? "en") {
+            DispatchQueue.main.async {
+                self.presentCmp()
+            }
+        } onFailure: { <#Error#> in
+            DispatchQueue.main.async {
+                // ignore language switch error, present cmp anyway
+                self.presentCmp()
+            }
         }
     }
 
@@ -74,6 +81,7 @@ public class UsercentricsCmpPlugin: CAPPlugin {
 
         let options = UsercentricsOptions(settingsId: settingsId)
         // options.loggerLevel = .debug
+        options.defaultLanguage = self._call?.getString("language") ?? "en"
         UsercentricsCore.configure(options: options)
         self.usercentricsInitialized = true;
     }

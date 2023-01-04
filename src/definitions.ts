@@ -10,7 +10,7 @@ export interface UsercentricsConsents {
 }
 
 export interface UsercentricsCmpPlugin {
-  init(options: { settingsId: string }): Promise<UsercentricsConsents>;
-  update(): Promise<UsercentricsConsents>;
+  init(options: { settingsId: string, language: string }): Promise<UsercentricsConsents>;
+  update(options: { language: string }): Promise<UsercentricsConsents>;
   reset(): Promise<UsercentricsConsents>;
 }
