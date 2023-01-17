@@ -48,7 +48,7 @@ public class UsercentricsCmpPlugin: CAPPlugin {
             DispatchQueue.main.async {
                 self.presentCmp()
             }
-        } onFailure: { Error in
+        } onFailure: { error in
             DispatchQueue.main.async {
                 // ignore language switch error, present cmp anyway
                 self.presentCmp()
