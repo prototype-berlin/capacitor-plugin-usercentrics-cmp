@@ -7,12 +7,12 @@
     "methods": [
       {
         "name": "init",
-        "signature": "(options: { settingsId: string; }) => Promise<UsercentricsConsents>",
+        "signature": "(options: { settingsId: string; language: string; }) => any",
         "parameters": [
           {
             "name": "options",
             "docs": "",
-            "type": "{ settingsId: string; }"
+            "type": "{ settingsId: string; language: string; }"
           }
         ],
         "returns": "Promise<UsercentricsConsents>",
@@ -25,9 +25,15 @@
       },
       {
         "name": "update",
-        "signature": "() => Promise<UsercentricsConsents>",
-        "parameters": [],
-        "returns": "Promise<UsercentricsConsents>",
+        "signature": "(options: { language: string; }) => any",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "",
+            "type": "{ language: string; }"
+          }
+        ],
+        "returns": "any",
         "tags": [],
         "docs": "",
         "complexTypes": [

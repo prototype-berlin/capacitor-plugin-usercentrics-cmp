@@ -37,6 +37,7 @@ class UsercentricsCmpPlugin : Plugin() {
     bridge.saveCall(call)
 
     val options = UsercentricsOptions(settingsId = settingsId!!)
+    options.defaultLanguage = call.getString("language", "en")!!
 
     if (!usercentricsInitialized) {
       Usercentrics.initialize(context = context, options = options)
@@ -71,7 +72,13 @@ class UsercentricsCmpPlugin : Plugin() {
     bridge.saveCall(call)
 
     Log.d(TAG, "update cmp")
-    presentCMP()
+    Usercentrics.instance.changeLanguage(call.getString("language", "en")!!, onSuccess = {
+      presentCMP()
+    }, onFailure = {
+      // ignore language switch error, present cmp anyway
+      Log.e(TAG, it.toString())
+      presentCMP()
+    })
   }
 
   @PluginMethod
