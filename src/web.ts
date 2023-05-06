@@ -1,25 +1,36 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { UsercentricsCmpPlugin, UsercentricsConsents } from './definitions';
+function loadUsercentricsCmp(options, callback) {
+
+  let script = document.createElement('script');
+  script.src = 'https://app.usercentrics.eu/browser-ui/latest/loader.js';
+  script.id = 'usercentrics-cmp';
+  script.dataset.settingsId = options.settingsId;
+  script.async = true;
+  script.onload = () => callback();
+  script.onerror = () => callback(new Error(`Script load error for ${src}`));
+
+  document.body.append(script);
+}
 
 const MOCK_CONSENTS = {
     vendors: [
         {
-            'status': true,     
+            'status': true,
             'type': null,
             'version': '1.0',
             'id': 'uNl9XGnZC',
             'label': 'Google Firebase',
         },
         {
-            'status': false,     
+            'status': false,
             'type': 'test',
             'version': '1.0',
             'id': 'S1pcEj_jZX',
             'label': 'Google Maps',
         },
         {
-            'status': true,     
+            'status': true,
             'type': 'explicit',
             'version': '1.0',
             'id': 'H1Vl5NidjWX',
@@ -27,29 +38,60 @@ const MOCK_CONSENTS = {
         },
     ],
 };
+export class UsercentricsCmpWeb extends WebPlugin {
+    async init(options) {
+      console.log(`get consents for ${options.settingsId}`);
 
-export class UsercentricsCmpWeb extends WebPlugin implements UsercentricsCmpPlugin {
-  async init(options: { settingsId: string }): Promise<UsercentricsConsents> {
-    console.log(`get consents for ${options.settingsId}`);
-    console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
+      /*
+      return new Promise((resolve, reject) => {
+        loadUsercentricsCmp(options, (error) => {
+          if (error) {
+            reject(error);
+          }
 
-    return Promise.resolve(MOCK_CONSENTS);
-  }
+          if (window.UC_UI) {
+            return resolve(MOCK_CONSENTS);
+          }
 
-  async update(): Promise<UsercentricsConsents> {
-    console.log(`update consents`);
-    console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
+          window.addEventListener('UC_UI_INITIALIZED', function (event) {
+            var uc = window.UC_UI;
+
+            console.log(uc);
+            console.log(uc.isInitialized());
+            console.log(uc.getServicesBaseInfo());
+            console.log(uc.areAllConsentsAccepted());
+
+            uc.clearStorage();
+
+            resolve(MOCK_CONSENTS);
+          });
 
 
-    return Promise.resolve(MOCK_CONSENTS);
-  }
-  async reset(): Promise<UsercentricsConsents> {
-    console.log(`reset consents`);
-    console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
+          window.addEventListener('UC_UI_CMP_EVENT', function (event) {
+              console.log(event);
+          });
+        });
+      });
+      
+       */
 
-    return Promise.resolve(MOCK_CONSENTS);
 
-  }
+      return Promise.resolve(MOCK_CONSENTS);
+    }
+
+    async update() {
+        console.log(`update consents1`);
+        console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
+        //if (window.UC_UI && window.UC_UI.isInitialized()) {
+        //  UC_UI.showSecondLayer()
+        //}
+        return Promise.resolve(MOCK_CONSENTS);
+    }
+    async reset() {
+        console.log(`reset consents`);
+        console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
+        return Promise.resolve(MOCK_CONSENTS);
+    }
+
 }
-
-
+//# sourceMappingURL=web.js.map
