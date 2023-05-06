@@ -14,7 +14,7 @@ npx cap sync
 <docgen-index>
 
 * [`init(...)`](#init)
-* [`update()`](#update)
+* [`update(...)`](#update)
 * [`reset()`](#reset)
 * [Interfaces](#interfaces)
 
@@ -26,25 +26,29 @@ npx cap sync
 ### init(...)
 
 ```typescript
-init(options: { settingsId: string; }) => Promise<UsercentricsConsents>
+init(options: { settingsId: string; language: string; }) => any
 ```
 
-| Param         | Type                                 |
-| ------------- | ------------------------------------ |
-| **`options`** | <code>{ settingsId: string; }</code> |
+| Param         | Type                                                   |
+| ------------- | ------------------------------------------------------ |
+| **`options`** | <code>{ settingsId: string; language: string; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a>&gt;</code>
+**Returns:** <code>any</code>
 
 --------------------
 
 
-### update()
+### update(...)
 
 ```typescript
-update() => Promise<UsercentricsConsents>
+update(options: { language: string; }) => any
 ```
 
-**Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a>&gt;</code>
+| Param         | Type                               |
+| ------------- | ---------------------------------- |
+| **`options`** | <code>{ language: string; }</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -52,10 +56,10 @@ update() => Promise<UsercentricsConsents>
 ### reset()
 
 ```typescript
-reset() => Promise<UsercentricsConsents>
+reset() => any
 ```
 
-**Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a>&gt;</code>
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -65,9 +69,9 @@ reset() => Promise<UsercentricsConsents>
 
 #### UsercentricsConsents
 
-| Prop          | Type                              |
-| ------------- | --------------------------------- |
-| **`vendors`** | <code>UsercentricsVendor[]</code> |
+| Prop          | Type            |
+| ------------- | --------------- |
+| **`vendors`** | <code>{}</code> |
 
 
 #### UsercentricsVendor
