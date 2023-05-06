@@ -1,6 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
 
-function loadUsercentricsCmp(options, callback) {
+function loadUsercentricsCmp(options: { settingsId: string, language: string }, callback: any) {
 
   let script = document.createElement('script');
   script.src = 'https://app.usercentrics.eu/browser-ui/latest/loader.js';
@@ -8,7 +8,7 @@ function loadUsercentricsCmp(options, callback) {
   script.dataset.settingsId = options.settingsId;
   script.async = true;
   script.onload = () => callback();
-  script.onerror = () => callback(new Error(`Script load error for ${src}`));
+  script.onerror = () => callback(new Error(`Script load error for ${options.settingsId}`));
 
   document.body.append(script);
 }
@@ -39,21 +39,22 @@ const MOCK_CONSENTS = {
     ],
 };
 export class UsercentricsCmpWeb extends WebPlugin {
-    async init(options) {
+    async init(options: { settingsId: string, language: string }) {
       console.log(`get consents for ${options.settingsId}`);
 
-      /*
       return new Promise((resolve, reject) => {
-        loadUsercentricsCmp(options, (error) => {
+        loadUsercentricsCmp(options, (error: any) => {
           if (error) {
             reject(error);
           }
 
-          if (window.UC_UI) {
+          // @ts-ignore
+            if (window.UC_UI) {
             return resolve(MOCK_CONSENTS);
           }
 
-          window.addEventListener('UC_UI_INITIALIZED', function (event) {
+          window.addEventListener('UC_UI_INITIALIZED', function () {
+              // @ts-ignore
             var uc = window.UC_UI;
 
             console.log(uc);
@@ -72,15 +73,10 @@ export class UsercentricsCmpWeb extends WebPlugin {
           });
         });
       });
-      
-       */
-
-
-      return Promise.resolve(MOCK_CONSENTS);
     }
 
-    async update() {
-        console.log(`update consents1`);
+    async update(options: { language: string }) {
+        console.log(`update consents1`, options);
         console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
         //if (window.UC_UI && window.UC_UI.isInitialized()) {
         //  UC_UI.showSecondLayer()

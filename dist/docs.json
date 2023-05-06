@@ -7,7 +7,7 @@
     "methods": [
       {
         "name": "init",
-        "signature": "(options: { settingsId: string; language: string; }) => any",
+        "signature": "(options: { settingsId: string; language: string; }) => Promise<UsercentricsConsents>",
         "parameters": [
           {
             "name": "options",
@@ -25,7 +25,7 @@
       },
       {
         "name": "update",
-        "signature": "(options: { language: string; }) => any",
+        "signature": "(options: { language: string; }) => Promise<UsercentricsConsents>",
         "parameters": [
           {
             "name": "options",
@@ -33,7 +33,7 @@
             "type": "{ language: string; }"
           }
         ],
-        "returns": "any",
+        "returns": "Promise<UsercentricsConsents>",
         "tags": [],
         "docs": "",
         "complexTypes": [
@@ -120,5 +120,7 @@
       ]
     }
   ],
-  "enums": []
+  "enums": [],
+  "typeAliases": [],
+  "pluginConfigs": []
 }

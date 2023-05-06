@@ -26,14 +26,14 @@ npx cap sync
 ### init(...)
 
 ```typescript
-init(options: { settingsId: string; language: string; }) => any
+init(options: { settingsId: string; language: string; }) => Promise<UsercentricsConsents>
 ```
 
 | Param         | Type                                                   |
 | ------------- | ------------------------------------------------------ |
 | **`options`** | <code>{ settingsId: string; language: string; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a>&gt;</code>
 
 --------------------
 
@@ -41,14 +41,14 @@ init(options: { settingsId: string; language: string; }) => any
 ### update(...)
 
 ```typescript
-update(options: { language: string; }) => any
+update(options: { language: string; }) => Promise<UsercentricsConsents>
 ```
 
 | Param         | Type                               |
 | ------------- | ---------------------------------- |
 | **`options`** | <code>{ language: string; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a>&gt;</code>
 
 --------------------
 
@@ -56,10 +56,10 @@ update(options: { language: string; }) => any
 ### reset()
 
 ```typescript
-reset() => any
+reset() => Promise<UsercentricsConsents>
 ```
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a>&gt;</code>
 
 --------------------
 
@@ -69,9 +69,9 @@ reset() => any
 
 #### UsercentricsConsents
 
-| Prop          | Type            |
-| ------------- | --------------- |
-| **`vendors`** | <code>{}</code> |
+| Prop          | Type                              |
+| ------------- | --------------------------------- |
+| **`vendors`** | <code>UsercentricsVendor[]</code> |
 
 
 #### UsercentricsVendor
