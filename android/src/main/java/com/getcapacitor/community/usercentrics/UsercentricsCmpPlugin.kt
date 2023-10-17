@@ -13,16 +13,13 @@ import com.usercentrics.sdk.*
 class UsercentricsCmpPlugin : Plugin() {
   private val TAG = "UsercentricsCmp"
 
-  private var usercentricsActivityLauncher: ActivityResultLauncher<UsercentricsUISettings>? = null
+  private var banner: UsercentricsBanner? = null
   private var callbackId: String? = null
   private var settingsId: String? = null
   private var usercentricsInitialized: Boolean = false
 
   override fun load() {
     super.load()
-
-    // TODO: it works, but there might be a better approach to init activity launcher
-    usercentricsActivityLauncher = bridge.registerForActivityResult(UsercentricsActivityContract(), ::usercentricsActivityCallback)
   }
 
   @PluginMethod()
@@ -44,11 +41,9 @@ class UsercentricsCmpPlugin : Plugin() {
       usercentricsInitialized = true
     }
 
-    // isReady is called after Usercentrics has finished initializing
-    // get the consent status of the user, via UsercentricsReadyStatus
     Usercentrics.isReady(onSuccess = { status ->
-      if (status.shouldShowCMP) {
-        presentCMP()
+      if (status.shouldCollectConsent) {
+        showFirstLayer()
       } else {
         applyConsent(status.consents)
       }
@@ -72,12 +67,13 @@ class UsercentricsCmpPlugin : Plugin() {
     bridge.saveCall(call)
 
     Log.d(TAG, "update cmp")
+
     Usercentrics.instance.changeLanguage(call.getString("language", "en")!!, onSuccess = {
-      presentCMP()
+      showSecondLayer()
     }, onFailure = {
       // ignore language switch error, present cmp anyway
       Log.e(TAG, it.toString())
-      presentCMP()
+      showSecondLayer()
     })
   }
 
@@ -100,6 +96,36 @@ class UsercentricsCmpPlugin : Plugin() {
 
     call.resolve(consents)
     call.release(bridge)
+  }
+
+  private fun showFirstLayer(settings: BannerSettings? = null) {
+
+    // Launch Usercentrics Banner with your settings
+    banner = UsercentricsBanner(context, settings).also {
+      it.showFirstLayer(
+        callback = ::handleUserResponse
+      )
+    }
+  }
+
+  private fun showSecondLayer() {
+    // This is useful when you need to call our CMP from settings screen for instance, therefore the user may dismiss the view
+    val settings = BannerSettings(
+      secondLayerStyleSettings = SecondLayerStyleSettings(
+        showCloseButton = true,
+      )
+    )
+    banner = UsercentricsBanner(context, settings).also {
+      it.showSecondLayer(
+        callback = ::handleUserResponse
+      )
+    }
+  }
+
+  private fun handleUserResponse(userResponse: UsercentricsConsentUserResponse?) {
+    userResponse ?: return
+
+    applyConsent(userResponse.consents)
   }
 
   private fun applyConsent(consents: List<UsercentricsServiceConsent>?) {
@@ -125,19 +151,4 @@ class UsercentricsCmpPlugin : Plugin() {
     call.resolve(consents)
     call.release(bridge)
   }
-
-  private fun presentCMP() {
-    Log.d(TAG, "present cmp for $settingsId")
-
-    usercentricsActivityLauncher?.launch(UsercentricsUISettings(showCloseButton = false))
-  }
-
-  private fun usercentricsActivityCallback(consentUserResponse: UsercentricsConsentUserResponse?) {
-    if (consentUserResponse == null) {
-      return
-    }
-
-    applyConsent(consentUserResponse.consents)
-  }
-
 }
