@@ -115,10 +115,14 @@ class UsercentricsCmpPlugin : Plugin() {
         showCloseButton = true,
       )
     )
-    banner = UsercentricsBanner(context, settings).also {
-      it.showSecondLayer(
-        callback = ::handleUserResponse
-      )
+
+
+    activity.runOnUiThread {
+      banner = UsercentricsBanner(context, settings).also {
+        it.showSecondLayer(
+          callback = ::handleUserResponse
+        )
+      }
     }
   }
 
