@@ -21,16 +21,16 @@ public class UsercentricsCmpPlugin: CAPPlugin {
         }
 
         DispatchQueue.main.async {
-            UsercentricsCore.isReady { status in
-                if status.shouldShowCMP {
-                    self.presentCmp()
+            UsercentricsCore.isReady { [weak self] status in
+                guard let self = self else { return }
+                if status.shouldCollectConsent {
+                    self.presentFirstLayer()
                 } else {
                     // Apply stored consent (Don't show CMP)
                     self.applyConsent(with: status.consents)
                 }
             } onFailure: { error in
-                // Handle error
-              self._call?.reject(error.localizedDescription)
+                self._call?.reject(error.localizedDescription)
             }
         }
     }
@@ -46,12 +46,12 @@ public class UsercentricsCmpPlugin: CAPPlugin {
         
         UsercentricsCore.shared.changeLanguage(language: self._call?.getString("language") ?? "en") {
             DispatchQueue.main.async {
-                self.presentCmp()
+                self.presentSecondLayer()
             }
         } onFailure: { error in
             DispatchQueue.main.async {
                 // ignore language switch error, present cmp anyway
-                self.presentCmp()
+                self.presentSecondLayer()
             }
         }
     }
@@ -85,23 +85,32 @@ public class UsercentricsCmpPlugin: CAPPlugin {
         UsercentricsCore.configure(options: options)
         self.usercentricsInitialized = true;
     }
+    
+    
+    private func presentFirstLayer() {
+        guard let navigationController = self.bridge?.viewController else { fatalError("Navigation Controller needed") }
+        
+        let bannerSettings = BannerSettings(firstLayerStyleSettings: FirstLayerStyleSettings(layout: .popup(position: .center)))
 
-
-    private func presentCmp() {
-        let settings = UsercentricsUISettings(customFont: nil, customLogo: nil, showCloseButton: false)
-
-        let usercentricsUI: UIViewController = UsercentricsUserInterface.getPredefinedUI(settings: settings) { [weak self] response in
+        // Launch Usercentrics Banner with your settings
+        let banner = UsercentricsBanner(bannerSettings: bannerSettings)
+        banner.showFirstLayer(hostView: navigationController) { [weak self] response in
             guard let self = self else { return }
+            /// Process consents
             self.applyConsent(with: response.consents)
-            self.bridge?.viewController?.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    private func presentSecondLayer() {
+        guard let navigationController = self.bridge?.viewController else { fatalError("Navigation Controller needed") }
 
-        if #available(iOS 13.0, *) {
-            usercentricsUI.isModalInPresentation = true
-            usercentricsUI.modalPresentationStyle = .popover
+        // This is useful when you need to call our CMP from settings screen for instance, therefore the user may dismiss the view
+        let banner = UsercentricsBanner(bannerSettings: BannerSettings(secondLayerStyleSettings: SecondLayerStyleSettings(showCloseButton: true)))
+        banner.showSecondLayer(hostView: navigationController) { [weak self] response in
+            guard let self = self else { return }
+            /// Process consents
+            self.applyConsent(with: response.consents)
         }
-
-        self.bridge?.viewController?.present(usercentricsUI, animated: true, completion: nil)
     }
 
     private func applyConsent(with consents: [UsercentricsServiceConsent]) {
@@ -110,7 +119,7 @@ public class UsercentricsCmpPlugin: CAPPlugin {
         for vendor in consents {
             let mappedVendor: [String: Any] = [
                 "id": vendor.templateId,
-                "type": vendor.type?.text as Any,
+                "type": vendor.type?.name as Any,
                 "status": vendor.status,
                 "label": vendor.dataProcessor,
                 "version": vendor.version,

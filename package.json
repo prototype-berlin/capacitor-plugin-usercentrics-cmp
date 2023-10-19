@@ -1,7 +1,7 @@
 {
   "name": "capacitor-plugin-usercentrics-cmp",
-  "version": "5.0.0",
-  "description": "A Capacitor 4 Plugin for the Usercentrics Consent Management Platform (CMP) which enables you to harmonize your marketing and data strategy with legal requirements.",
+  "version": "5.1.0",
+  "description": "A Capacitor 5 Plugin for the Usercentrics Consent Management Platform (CMP) which enables you to harmonize your marketing and data strategy with legal requirements.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -17,7 +17,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://git.prototype.berlin/prototype-berlin/capacitor-plugin-usercentrics-cmp.git.git"
+    "url": "git+https://git.prototype.berlin/prototype-berlin/capacitor-plugin-usercentrics-cmp.git"
   },
   "bugs": {
     "url": "https://git.prototype.berlin/prototype-berlin/capacitor-plugin-usercentrics-cmp.git/issues"
@@ -48,16 +48,16 @@
     "@capacitor/core": "^5.0.0",
     "@capacitor/docgen": "0.2.1",
     "@capacitor/ios": "^5.0.0",
-    "@ionic/eslint-config": "^0.3.0",
+    "@ionic/eslint-config": "0.3.0",
     "@ionic/prettier-config": "^2.0.0",
     "@ionic/swiftlint-config": "^1.1.2",
-    "eslint": "^8.20.0",
+    "eslint": "7.32.0",
     "prettier": "^2.7.1",
     "prettier-plugin-java": "^1.6.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.77.2",
     "swiftlint": "^1.0.1",
-    "typescript": "~4.7.4"
+    "typescript": "5.1.6"
   },
   "peerDependencies": {
     "@capacitor/core": "^5.0.0"
