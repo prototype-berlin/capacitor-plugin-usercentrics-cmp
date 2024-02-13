@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "capacitor6-spm-test",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ionic-team/capacitor6-spm-test.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "98315c71c9231eb3511b2562281a62eaad8dbd34"
+      }
+    },
+    {
+      "identity" : "usercentrics-spm-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://bitbucket.org/usercentricscode/usercentrics-spm-sdk.git",
+      "state" : {
+        "revision" : "cab2b37f731b8986f32188753973f352442735df",
+        "version" : "2.11.3"
+      }
+    },
+    {
+      "identity" : "usercentrics-spm-ui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://bitbucket.org/usercentricscode/usercentrics-spm-ui.git",
+      "state" : {
+        "revision" : "76cf79baf9cece0838fc3d650105cd12372f2c38",
+        "version" : "2.11.3"
+      }
+    }
+  ],
+  "version" : 2
+}
