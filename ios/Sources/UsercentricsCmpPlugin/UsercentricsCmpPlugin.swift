@@ -8,7 +8,14 @@ import UsercentricsUI
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(UsercentricsCmpPlugin)
-public class UsercentricsCmpPlugin: CAPPlugin {
+public class UsercentricsCmpPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "UsercentricsCmpPlugin" 
+    public let jsName = "UsercentricsCmp" 
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "init", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "update", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "reset", returnType: CAPPluginReturnPromise),
+    ] 
     private var _call: CAPPluginCall?
     private var usercentricsInitialized: Bool?
 

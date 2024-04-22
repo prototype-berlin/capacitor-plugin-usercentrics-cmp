@@ -1,7 +1,7 @@
 {
   "name": "capacitor-plugin-usercentrics-cmp",
-  "version": "5.1.0",
-  "description": "A Capacitor 5 Plugin for the Usercentrics Consent Management Platform (CMP) which enables you to harmonize your marketing and data strategy with legal requirements.",
+  "version": "6.0.0",
+  "description": "A Capacitor 6 Plugin for the Usercentrics Consent Management Platform (CMP) which enables you to harmonize your marketing and data strategy with legal requirements.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -10,7 +10,9 @@
     "android/src/main/",
     "android/build.gradle",
     "dist/",
-    "ios/Plugin/",
+    "ios/Sources/",
+    "ios/Tests",
+    "Package.swift",
     "CapacitorPluginUsercentricsCmp.podspec"
   ],
   "author": "prototype.berlin GmbH",
@@ -29,7 +31,7 @@
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
-    "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin && cd ..",
+    "verify:ios": "xcodebuild build -scheme CapacitorPluginUsercentricsCmp -sdk iphonesimulator17.2 -destination 'OS=17.2,name=iPhone 15'",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
     "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
@@ -44,10 +46,10 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@capacitor/android": "^5.0.0",
-    "@capacitor/core": "^5.0.0",
-    "@capacitor/docgen": "0.2.1",
-    "@capacitor/ios": "^5.0.0",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/docgen": "0.2.2",
+    "@capacitor/ios": "^6.0.0",
     "@ionic/eslint-config": "0.3.0",
     "@ionic/prettier-config": "^2.0.0",
     "@ionic/swiftlint-config": "^1.1.2",
@@ -60,7 +62,7 @@
     "typescript": "5.1.6"
   },
   "peerDependencies": {
-    "@capacitor/core": "^5.0.0"
+    "@capacitor/core": "^6.0.0"
   },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
