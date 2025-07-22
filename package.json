@@ -19,10 +19,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://git.prototype.berlin/prototype-berlin/capacitor-plugin-usercentrics-cmp.git"
+    "url": "git+https://github.com/prototype-berlin/capacitor-plugin-usercentrics-cmp.git"
   },
   "bugs": {
-    "url": "https://git.prototype.berlin/prototype-berlin/capacitor-plugin-usercentrics-cmp.git/issues"
+    "url": "https://github.com/prototype-berlin/capacitor-plugin-usercentrics-cmp/issues"
   },
   "keywords": [
     "capacitor",
