@@ -1,7 +1,7 @@
 import { WebPlugin } from '@capacitor/core';
+import { UsercentricsBaseService, UsercentricsVendor } from './definitions';
 
 function loadUsercentricsCmp(options: { settingsId: string, language: string }, callback: any) {
-
   let script = document.createElement('script');
   script.src = 'https://app.usercentrics.eu/browser-ui/latest/loader.js';
   script.id = 'usercentrics-cmp';
@@ -13,81 +13,70 @@ function loadUsercentricsCmp(options: { settingsId: string, language: string }, 
   document.body.append(script);
 }
 
-const MOCK_CONSENTS = {
-    vendors: [
-        {
-            'status': true,
-            'type': null,
-            'version': '1.0',
-            'id': 'uNl9XGnZC',
-            'label': 'Google Firebase',
-        },
-        {
-            'status': false,
-            'type': 'test',
-            'version': '1.0',
-            'id': 'S1pcEj_jZX',
-            'label': 'Google Maps',
-        },
-        {
-            'status': true,
-            'type': 'explicit',
-            'version': '1.0',
-            'id': 'H1Vl5NidjWX',
-            'label': 'Usercentrics Consent Management Platform',
-        },
-    ],
-};
 export class UsercentricsCmpWeb extends WebPlugin {
-    async init(options: { settingsId: string, language: string }) {
-      console.log(`get consents for ${options.settingsId}`);
-
+    public async init(options: { settingsId: string, language: string }) {
       return new Promise((resolve, reject) => {
         loadUsercentricsCmp(options, (error: any) => {
           if (error) {
             reject(error);
           }
 
-          // @ts-ignore
-            if (window.UC_UI) {
-            return resolve(MOCK_CONSENTS);
-          }
+          window.addEventListener('UC_UI_INITIALIZED', () => {
+            const vendors = this.getMappedVendors(window.UC_UI?.getServicesBaseInfo());
 
-          window.addEventListener('UC_UI_INITIALIZED', function () {
-              // @ts-ignore
-            var uc = window.UC_UI;
+            /*
+             * we shouldn't hide the privacy button for legal reasons
+             *
+              setTimeout(() => {
+                const shadowRoot = document.querySelector('#usercentrics-root')?.shadowRoot;
+                const privacyButton = shadowRoot?.querySelector('[data-testid="uc-privacy-button"]');
 
-            console.log(uc);
-            console.log(uc.isInitialized());
-            console.log(uc.getServicesBaseInfo());
-            console.log(uc.areAllConsentsAccepted());
+                if (privacyButton) {
+                  privacyButton.style.display = 'none';
+                }
+              }, 500);
+            */
 
-            uc.clearStorage();
-
-            resolve(MOCK_CONSENTS);
-          });
-
-
-          window.addEventListener('UC_UI_CMP_EVENT', function (event) {
-              console.log(event);
-          });
+            resolve({ vendors });
+          }, { once: true });
         });
       });
     }
 
-    async update(options: { language: string }) {
-        console.log(`update consents1`, options);
-        console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
-        //if (window.UC_UI && window.UC_UI.isInitialized()) {
-        //  UC_UI.showSecondLayer()
-        //}
-        return Promise.resolve(MOCK_CONSENTS);
+    async update(_options: { language: string }) {
+        try {
+          window.UC_UI.showSecondLayer();
+        } catch (error) {
+          console.error('Failed to show Usercentrics second layer.', error);
+        }
+
+        // updated vendors are handled in client consentService.watchWebCmpChanges
+        return Promise.resolve(null);
     }
     async reset() {
-        console.log(`reset consents`);
-        console.error('Usercentrics plugin not implemented for web. Mock state "accept all vendors"');
-        return Promise.resolve(MOCK_CONSENTS);
+      if (window.UC_UI) {
+        try {
+          await window.UC_UI?.clearStorage();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      // updated vendors are handled in client consentService.watchWebCmpChanges
+      return Promise.resolve(null);
     }
+
+    private getMappedVendors(services: UsercentricsBaseService[]): UsercentricsVendor[] {
+    return services?.map((service) => {
+      return {
+        status: service.consent.status,
+        id: service.id,
+        type: service.categorySlug,
+        version: service.version,
+        label: service.name,
+      };
+    }) || [];
+  }
 
 }
 //# sourceMappingURL=web.js.map

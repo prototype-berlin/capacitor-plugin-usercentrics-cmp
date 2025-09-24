@@ -41,14 +41,14 @@ init(options: { settingsId: string; language: string; }) => Promise<Usercentrics
 ### update(...)
 
 ```typescript
-update(options: { language: string; }) => Promise<UsercentricsConsents>
+update(options: { language: string; }) => Promise<UsercentricsConsents | null>
 ```
 
 | Param         | Type                               |
 | ------------- | ---------------------------------- |
 | **`options`** | <code>{ language: string; }</code> |
 
-**Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a> | null&gt;</code>
 
 --------------------
 
@@ -56,10 +56,10 @@ update(options: { language: string; }) => Promise<UsercentricsConsents>
 ### reset()
 
 ```typescript
-reset() => Promise<UsercentricsConsents>
+reset() => Promise<UsercentricsConsents | null>
 ```
 
-**Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#usercentricsconsents">UsercentricsConsents</a> | null&gt;</code>
 
 --------------------
 

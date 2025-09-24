@@ -15,6 +15,23 @@ export interface UsercentricsCmpPlugin {
     }): Promise<UsercentricsConsents>;
     update(options: {
         language: string;
-    }): Promise<UsercentricsConsents>;
-    reset(): Promise<UsercentricsConsents>;
+    }): Promise<UsercentricsConsents | null>;
+    reset(): Promise<UsercentricsConsents | null>;
+}
+export interface UsercentricsBaseService {
+    categorySlug: string;
+    consent: {
+        history: any[];
+        status: boolean;
+    };
+    id: string;
+    isEssential: boolean;
+    name: string;
+    subServices: any[];
+    version: string;
+}
+declare global {
+    interface Window {
+        UC_UI?: any;
+    }
 }

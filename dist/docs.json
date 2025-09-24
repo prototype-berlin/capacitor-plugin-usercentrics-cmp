@@ -25,7 +25,7 @@
       },
       {
         "name": "update",
-        "signature": "(options: { language: string; }) => Promise<UsercentricsConsents>",
+        "signature": "(options: { language: string; }) => Promise<UsercentricsConsents | null>",
         "parameters": [
           {
             "name": "options",
@@ -33,7 +33,7 @@
             "type": "{ language: string; }"
           }
         ],
-        "returns": "Promise<UsercentricsConsents>",
+        "returns": "Promise<UsercentricsConsents | null>",
         "tags": [],
         "docs": "",
         "complexTypes": [
@@ -43,9 +43,9 @@
       },
       {
         "name": "reset",
-        "signature": "() => Promise<UsercentricsConsents>",
+        "signature": "() => Promise<UsercentricsConsents | null>",
         "parameters": [],
-        "returns": "Promise<UsercentricsConsents>",
+        "returns": "Promise<UsercentricsConsents | null>",
         "tags": [],
         "docs": "",
         "complexTypes": [
