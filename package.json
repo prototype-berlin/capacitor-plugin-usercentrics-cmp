@@ -1,6 +1,6 @@
 {
   "name": "capacitor-plugin-usercentrics-cmp",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "A Capacitor 6 Plugin for the Usercentrics Consent Management Platform (CMP) which enables you to harmonize your marketing and data strategy with legal requirements.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
