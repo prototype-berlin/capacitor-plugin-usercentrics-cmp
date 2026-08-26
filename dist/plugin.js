@@ -90,8 +90,6 @@ var capacitorUsercentricsCmp = (function (exports, core) {
 
     exports.UsercentricsCmp = UsercentricsCmp;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
-
     return exports;
 
 })({}, capacitorExports);
