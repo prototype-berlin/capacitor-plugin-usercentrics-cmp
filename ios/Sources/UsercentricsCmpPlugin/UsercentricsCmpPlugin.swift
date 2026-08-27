@@ -73,10 +73,11 @@ public class UsercentricsCmpPlugin: CAPPlugin, CAPBridgedPlugin {
         }
 
         DispatchQueue.main.async {
-            UsercentricsCore.reset();
-
-            self.usercentricsInitialized = nil;
-            self._call?.resolve(["vendors": []])
+            UsercentricsCore.shared.clearUserSession(onSuccess: { _ in
+                self._call?.resolve(["vendors": []])
+            }, onError: { error in
+                self._call?.reject(error.localizedDescription)
+            })
         }
     }
 
